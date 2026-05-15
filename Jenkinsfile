@@ -25,10 +25,10 @@ pipeline {
         stage('Prepare Deploy Directory') {
             steps {
                 sh '''
+		    rm -rf "$DEPLOY_DIR"/*
                     mkdir -p "$DEPLOY_DIR/nginx"
                     mkdir -p "$DEPLOY_DIR/monitoring"
 
-                    rm -rf "$DEPLOY_DIR"/*
 
                     cp Dockerfile "$DEPLOY_DIR"/
                     cp index.html "$DEPLOY_DIR"/
