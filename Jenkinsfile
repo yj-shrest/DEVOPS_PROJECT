@@ -25,10 +25,23 @@ pipeline {
         stage('Prepare Deploy Directory') {
             steps {
                 sh '''
-                    mkdir -p "$DEPLOY_DIR"
+                    mkdir -p "$DEPLOY_DIR/nginx"
+                    mkdir -p "$DEPLOY_DIR/monitoring"
+
                     rm -rf "$DEPLOY_DIR"/*
-                    cp -r . "$DEPLOY_DIR"/
-                    ls -l "$DEPLOY_DIR/monitoring/prometheus.yml"
+
+                    cp Dockerfile "$DEPLOY_DIR"/
+                    cp index.html "$DEPLOY_DIR"/
+                    cp Jenkinsfile "$DEPLOY_DIR"/
+
+                    if [ -f docker-compose.yml ]; then
+                        cp docker-compose.yml "$DEPLOY_DIR"/
+                    else
+                        cp docker-compose.yaml "$DEPLOY_DIR"/
+                    fi
+
+                    cp nginx/default.conf "$DEPLOY_DIR/nginx"/
+                    cp monitoring/prometheus.yml "$DEPLOY_DIR/monitoring"/
                 '''
             }
         }
