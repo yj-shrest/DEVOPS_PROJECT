@@ -18,10 +18,20 @@ pipeline {
             }
         }
 
+        stage('Prepare Deploy Directory') {
+            steps {
+                sh '''
+                    rm -rf /opt/devops-nginx-cicd/*
+                    cp -r . /opt/devops-nginx-cicd/
+                '''
+            }
+        }
+
         stage('Deploy Containers') {
             steps {
-                sh 'docker compose up -d --force-recreate --no-deps app'
-                sh 'docker compose up -d prometheus grafana nginx-exporter'
+                dir('/opt/devops-nginx-cicd') {
+                    sh 'docker compose up -d --force-recreate'
+                }
             }
         }
 
