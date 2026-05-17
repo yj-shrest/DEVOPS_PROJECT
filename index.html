@@ -1,10 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>DevOps CI/CD Demo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpsPilot Release Center</title>
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body style="font-family: Arial; text-align: center; margin-top: 80px;">
-  <h1>DevOps CI/CD Pipeline Working!</h1>
-  <p>This page was deployed automatically using Jenkins and Docker.</p>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#overview" aria-label="OpsPilot home">
+        <span class="brand-mark">OP</span>
+        <span>
+          <strong>OpsPilot</strong>
+          <small>Release Center</small>
+        </span>
+      </a>
+
+      <nav class="nav-list">
+        <a href="#overview" class="nav-link active" data-section="overview">
+          <span aria-hidden="true">#</span> Overview
+        </a>
+        <a href="#pipeline" class="nav-link" data-section="pipeline">
+          <span aria-hidden="true">&gt;</span> Pipeline
+        </a>
+        <a href="#services" class="nav-link" data-section="services">
+          <span aria-hidden="true">o</span> Services
+        </a>
+        <a href="#runbook" class="nav-link" data-section="runbook">
+          <span aria-hidden="true">x</span> Runbook
+        </a>
+      </nav>
+
+      <div class="sidebar-panel">
+        <span class="panel-label">Current target</span>
+        <strong>Production</strong>
+        <small>Auto-deployed by Jenkins + Docker</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Live release workspace</p>
+          <h1>OpsPilot Release Center</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box" for="searchInput">
+            <span aria-hidden="true">?</span>
+            <input id="searchInput" type="search" placeholder="Search services, owners, events">
+          </label>
+          <button class="primary-btn" id="deployButton" type="button">
+            <span aria-hidden="true">^</span>
+            Queue deploy
+          </button>
+        </div>
+      </header>
+
+      <section id="overview" class="section">
+        <div class="metrics-grid" aria-label="Release metrics">
+          <article class="metric-card">
+            <span class="metric-label">Deployments</span>
+            <strong id="deploymentCount">18</strong>
+            <small>+4 this week</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Healthy services</span>
+            <strong id="healthyCount">5/6</strong>
+            <small>99.94% availability</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Open incidents</span>
+            <strong id="incidentCount">2</strong>
+            <small>1 customer-facing</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Lead time</span>
+            <strong>42m</strong>
+            <small>Commit to production</small>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel wide-panel" aria-labelledby="activityTitle">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Release activity</p>
+                <h2 id="activityTitle">Deployment velocity</h2>
+              </div>
+              <div class="segmented-control" role="group" aria-label="Chart range">
+                <button class="segment active" type="button" data-range="7">7d</button>
+                <button class="segment" type="button" data-range="14">14d</button>
+                <button class="segment" type="button" data-range="30">30d</button>
+              </div>
+            </div>
+            <div class="bar-chart" id="velocityChart" aria-label="Deployment velocity chart"></div>
+          </section>
+
+          <section class="panel" aria-labelledby="incidentTitle">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Attention</p>
+                <h2 id="incidentTitle">Active incidents</h2>
+              </div>
+              <span class="status-pill warning">2 open</span>
+            </div>
+            <div class="incident-list" id="incidentList"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="pipeline" class="section">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">CI/CD</p>
+              <h2>Pipeline stages</h2>
+            </div>
+            <span class="status-pill success">Passing</span>
+          </div>
+          <div class="pipeline" id="pipelineList"></div>
+        </div>
+      </section>
+
+      <section id="services" class="section">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Runtime</p>
+              <h2>Service inventory</h2>
+            </div>
+            <select id="statusFilter" aria-label="Filter services by status">
+              <option value="all">All statuses</option>
+              <option value="healthy">Healthy</option>
+              <option value="warning">Warning</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+          <div class="service-table" id="serviceTable" role="table" aria-label="Service inventory"></div>
+        </div>
+      </section>
+
+      <section id="runbook" class="section">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Release readiness</p>
+              <h2>Runbook checklist</h2>
+            </div>
+            <button class="secondary-btn" id="resetRunbook" type="button">Reset</button>
+          </div>
+          <div class="runbook-list" id="runbookList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/app.js"></script>
 </body>
 </html>

@@ -33,6 +33,7 @@ pipeline {
                     cp Dockerfile "$DEPLOY_DIR"/
                     cp index.html "$DEPLOY_DIR"/
                     cp Jenkinsfile "$DEPLOY_DIR"/
+                    cp -r assets "$DEPLOY_DIR"/
 
                     if [ -f docker-compose.yml ]; then
                         cp docker-compose.yml "$DEPLOY_DIR"/
