@@ -31,6 +31,25 @@ Open:
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
 
+## Permanent Jenkins Host Fix
+
+If old containers named `demo-nginx-app`, `nginx-exporter`, `prometheus`, or `grafana` are stuck with `permission denied`, clean them once from the Jenkins server with an admin user:
+
+```bash
+sudo systemctl restart docker
+sudo docker rm -f demo-nginx-app nginx-exporter prometheus grafana
+sudo docker compose -p devops_nginx_cicd -f /home/jenkins/devops-nginx-cicd/docker-compose.yaml down --remove-orphans
+```
+
+Make sure the Jenkins user can control Docker without permission errors:
+
+```bash
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+```
+
+After that, rerun the Jenkins job. The current Compose file does not use fixed container names, so future deployments should recreate the stack cleanly on the normal ports.
+
 ## Project Structure
 
 ```text

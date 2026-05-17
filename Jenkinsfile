@@ -52,7 +52,6 @@ pipeline {
             steps {
                 sh '''
                     cd "$DEPLOY_DIR"
-                    docker rm -f demo-nginx-app nginx-exporter prometheus grafana || true
                     docker compose down --remove-orphans || true
                     docker compose up -d --force-recreate
                 '''
