@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         DEPLOY_DIR = '/home/jenkins/devops-nginx-cicd'
+        COMPOSE_PROJECT_NAME = 'devops_nginx_cicd'
     }
 
     stages {
@@ -51,6 +52,7 @@ pipeline {
             steps {
                 sh '''
                     cd "$DEPLOY_DIR"
+                    docker rm -f demo-nginx-app nginx-exporter prometheus grafana || true
                     docker compose down --remove-orphans || true
                     docker compose up -d --force-recreate
                 '''
